@@ -5,8 +5,6 @@ from app.infrastructure.db.models import Base
 from app.infrastructure.db.session import engine
 from app.interfaces.routes import auth_routes, todo_routes
 
-from .openapi import custom_openapi
-
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -30,8 +28,6 @@ app = FastAPI(
 )
 
 
-# app.openapi = custom_openapi(app)
-
 # CORS settings
 origins = [
     "http://localhost:3000",
@@ -48,8 +44,8 @@ app.add_middleware(
 )
 
 # routers
-app.include_router(todo_routes.router, prefix="/api/todos", tags=["todos"])
-app.include_router(auth_routes.router, prefix="/api/auth", tags=["auth"])
+app.include_router(todo_routes.router, prefix="/todos", tags=["todos"])
+app.include_router(auth_routes.router, prefix="/auth", tags=["auth"])
 
 
 @app.get("/")

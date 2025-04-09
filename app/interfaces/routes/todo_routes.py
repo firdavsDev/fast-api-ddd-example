@@ -27,7 +27,16 @@ class ToDoResponse(BaseModel):
     created_at: str
 
 
-@router.get("/todos", response_model=List[ToDoResponse])
+@router.post("/create", response_model=ToDoResponse)
+def create_todo(
+    body: CreateToDoRequest, user_id=Depends(get_current_user), db=Depends(get_db)
+):
+    service = ToDoService(SQLAlchemyToDoRepository(db))
+    todo = service.create(body.title, user_id)
+    return todo.__dict__
+
+
+@router.get("/list", response_model=List[ToDoResponse])
 def list_todos(
     q: str = "",
     limit: int = 10,
@@ -40,14 +49,7 @@ def list_todos(
     return [t.__dict__ for t in todos]
 
 
-@router.get("/todos", response_model=List[ToDoResponse])
-def list_todos(user_id=Depends(get_current_user), db=Depends(get_db)):
-    service = ToDoService(SQLAlchemyToDoRepository(db))
-    todos = service.list_by_user(user_id)
-    return [t.__dict__ for t in todos]
-
-
-@router.get("/todos/stats")
+@router.get("/stats")
 def todo_stats(user_id=Depends(get_current_user), db=Depends(get_db)):
     service = ToDoService(SQLAlchemyToDoRepository(db))
     return service.get_stats(user_id)
