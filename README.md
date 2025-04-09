@@ -5,18 +5,6 @@ Includes JWT auth, SQLite, Docker, and metrics + pagination support.
 
 ---
 
-## 🚀 Features
-
-- 🧠 Domain-Driven Design
-- 🔐 JWT Authentication
-- ✅ User-specific ToDos
-- 📊 Metrics endpoint (`/todos/stats`)
-- 🔍 Search + pagination on todos
-- 🐳 Docker support
-- 🧪 Basic tests with `pytest`
-
----
-
 ## 📂 Project Structure (DDD)
 
 ```plaintext
